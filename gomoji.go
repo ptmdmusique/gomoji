@@ -19,6 +19,11 @@ const (
 	Positive = 1
 )
 
+var (
+	PosEmoList = []string{"🎁", "😙", "💞", "💃", "🎊", "🏆", "☺", "🐾", "😋", "😛", "🌸", "🐱", "😃", "🍜", "💪"}
+	NegEmoList = []string{"👿", "😕", "😐", "😒", "😿", "😦", "😾", "😠", "👺", "😡", "😨", "💩", "😭", "😓", "👹"}
+)
+
 func AnalyzeSentiment(text string) uint8 {
 	model, err := sentiment.Restore()
 	if err != nil {
@@ -32,15 +37,13 @@ func AnalyzeSentiment(text string) uint8 {
 }
 
 func GetEmoji(sentiment uint8) string {
-	posList := []string{"🎁", "😙", "💞", "💃", "🎊", "🏆", "☺", "🐾", "😋", "😛", "🌸", "🐱", "😃", "🍜", "💪"}
-	negList := []string{"👿", "😕", "😐", "😒", "😿", "😦", "😾", "😠", "👺", "😡", "😨", "💩", "😭", "😓", "👹"}
 
 	rand.Seed(time.Now().Unix())
 	var emoji string
 	if sentiment == Positive {
-		emoji = posList[rand.Int()%len(posList)]
+		emoji = PosEmoList[rand.Int()%len(PosEmoList)]
 	} else if sentiment == Negative {
-		emoji = negList[rand.Int()%len(negList)]
+		emoji = NegEmoList[rand.Int()%len(NegEmoList)]
 	} else {
 		emoji = "You broke the server!"
 	}
